@@ -18,8 +18,7 @@ let s3 = new AWS.S3();
 
 router.get('/', async (req, res) => {
     const products = await Product.find().exec();
-    
-    res.json(products.filter(product => products.indexOf(product) !== 0));
+    res.json(products);
 })
 
 
@@ -39,27 +38,27 @@ router.post('/', upload.single('image'), async (req, res) => {
         const foundProduct = await Product.findOne({ name: name }).exec();
 
         if (!foundProduct) {
-           
+
             s3.upload(params, (err, data) => {
                 if (err) {
                     console.log('ERROR');
                     return res.status(503).send('Error');
                 }
             })
-            
+
 
             const result = await Product.create({
-                name: name, 
+                name: name,
                 image: file.originalname,
                 description: description,
                 price: price
             })
 
-            
 
-            
 
-            
+
+
+
             return res.json({ success: `Product ${name} uplaoded successfully!` });
         } else {
             return res.json({ success: `Product ${name} already exists successfully!` });
@@ -74,7 +73,26 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
 
 
-    
+
 });
 
+router.post('/addPrices/:id', async (req, res) => {
+
+    try {
+        const id = req.params.id;
+        const prices = req.body;
+        const foundProduct = await Product.findById(id).exec();
+
+        foundProduct.prices = prices;
+
+        await foundProduct.save();
+        
+        res.sendStatus(200);
+        console.log('Success');
+    } catch (error) {
+        res.sendStatus(500);
+    }
+
+
+})
 module.exports = router;
