@@ -18,7 +18,7 @@ let s3 = new AWS.S3();
 
 router.get('/', async (req, res) => {
     const products = await Product.find().exec();
-    res.json(products);
+    res.json(products.filter((pr, index) => index !== 0));
 })
 
 
@@ -84,12 +84,13 @@ router.post('/addPrices/:id', async (req, res) => {
         const foundProduct = await Product.findById(id).exec();
 
         foundProduct.prices = prices;
-
+        console.log(prices);
         await foundProduct.save();
-        
+        console.log(foundProduct);
         res.sendStatus(200);
         console.log('Success');
     } catch (error) {
+        console.log(error);
         res.sendStatus(500);
     }
 

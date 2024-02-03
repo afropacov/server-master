@@ -31,6 +31,8 @@ app.use(cookieParser());
 
 app.use('/', require('./routes/root'));
 app.use('/products', require('./routes/product'));
+app.use('/checkout', require('./routes/checkout'));
+
 
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));

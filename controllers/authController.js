@@ -38,5 +38,4 @@ const handleSignIn = async (req, res) => {
     }
 }
 
-
 module.exports = {handleSignIn};
