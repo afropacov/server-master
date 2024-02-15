@@ -3,7 +3,7 @@ const stripe = require('stripe')('sk_test_51OfCIbHxzEsNocOD4UxzyCZhw7xlO4TT7fxCK
 const express = require('express');
 const router = express.Router();
 
-const YOUR_DOMAIN = 'http://127.0.0.1:5500';
+const YOUR_DOMAIN = 'https://david-capstone-project.netlify.app';
 
 router.post('/', async (req, res) => {
 
